@@ -1,0 +1,47 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Article;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+
+class ArticleFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Article::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $title = $this->faker->sentence(rand(3, 8), true);
+        $slug = Str::slug($title);
+        $txt = $this->faker->realText(rand(1000, 4000));
+        $excerpt = Str::limit($txt, 400);
+        $createdAt = $this->faker->dateTimeBetween('-6 months',
+            '-3 months');
+        $is_published = rand(1,10) > 3;
+
+
+        $data = [
+            'title' => $title,
+            'slug' => $slug,
+            'txt' => $txt,
+            'excerpt' => $excerpt,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
+            'is_published'=> $is_published,
+        ];
+
+        return $data;
+    }
+}
