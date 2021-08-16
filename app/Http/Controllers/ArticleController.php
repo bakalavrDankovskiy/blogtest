@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
-use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -32,16 +31,10 @@ class ArticleController extends Controller
     public function store(ArticleCreateRequest $request)
     {
         $data = $request->input();
-        $data['slug'] = Str::slug($data['slug']);
-        $item = (new Article())->create($data);
-
-        if ($item) {
-            return redirect()->route('articles.create')
-                ->with(['success' => 'Успешно сохранено']);
-        } else {
-            return back()->withErrors(['msg' => 'Ошибка сохранения'])
-                ->withInput();
-        }
+        Article::create($data);
+        return redirect()
+            ->route('articles.create')
+            ->with(['success' => 'Успешно сохранено']);
     }
 
     /**

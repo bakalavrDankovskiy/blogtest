@@ -24,11 +24,12 @@ class ArticleCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:5|max:100',
-            'slug' => 'string|unique:articles',
+            'title' => 'required|string|min:5|max:100',
+            'slug' => 'required|string|unique:articles|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
             'excerpt' => 'required|string|max:255',
             'txt' => 'required|string',
             'is_published' => 'required|boolean',
         ];
     }
 }
+
