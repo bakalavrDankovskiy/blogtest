@@ -1,3 +1,9 @@
+@php
+    /**
+     * @var $article \App\Models\Article
+     **/
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -5,10 +11,11 @@
         @include('layouts.includes.result_messages')
         <figure class="text-center">
             <blockquote class="blockquote">
-                <p class="font-weight-bold">Напишите новую статью</p>
+                <p class="font-weight-bold">Отредактировать статью '{{$article->title}}'</p>
             </blockquote>
         </figure>
-        <form action="{{route('articles.store')}}" method="POST">
+        <form action="{{route('articles.update', $article)}}" method="POST">
+            @method('PATCH')
             @include('articles.includes.articleForm')
         </form>
     </div>

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
-use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -32,16 +32,10 @@ class ArticleController extends Controller
     public function store(ArticleCreateRequest $request)
     {
         $data = $request->input();
-        $data['slug'] = Str::slug($data['slug']);
-        $item = (new Article())->create($data);
-
-        if ($item) {
-            return redirect()->route('articles.create')
-                ->with(['success' => 'Успешно сохранено']);
-        } else {
-            return back()->withErrors(['msg' => 'Ошибка сохранения'])
-                ->withInput();
-        }
+        Article::create($data);
+        return redirect()
+            ->route('articles.create')
+            ->with(['success' => 'Успешно сохранено']);
     }
 
     /**
@@ -55,28 +49,30 @@ class ArticleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('articles.edit', compact('article'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ArticleUpdateRequest $request, Article $article)
     {
-        //
+        $data = $request->all();
+        $result = $article->update($data);
+        return back()
+            ->with(['success' => 'Успешно сохранено']);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+        return redirect()
+            ->route('articles.index')
+            ->with(['success' => 'Успешно удалено']);
     }
 }

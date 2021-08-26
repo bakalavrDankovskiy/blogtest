@@ -23,6 +23,23 @@ Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])
     ->name('articles.show');
 
 /**
+ * Отредактировать статью
+ */
+Route::get('/articles/{article:slug}/edit', [ArticleController::class, 'edit'])
+    ->name('articles.edit');
+/**
+ * Обновить статью
+ */
+Route::patch('/articles/{article:slug}', [ArticleController::class, 'update'])
+    ->name('articles.update');
+
+/**
+ * Удалить статью
+ */
+Route::delete('/articles/{article:slug}/delete', [ArticleController::class, 'destroy'])
+    ->name('articles.delete');
+
+/**
  * Сохранить статью
  */
 Route::post('/articles', [ArticleController::class, 'store'])
