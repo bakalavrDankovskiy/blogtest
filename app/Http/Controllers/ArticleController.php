@@ -56,11 +56,17 @@ class ArticleController extends Controller
         return view('articles.edit', compact('article'));
     }
 
+    /**
+     * @param ArticleUpdateRequest $request
+     * @param Article $article
+     * Обновление статьи
+     */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
         $data = $request->all();
         $result = $article->update($data);
-        return back()
+        return redirect()
+            ->route('articles.edit', $article->slug)
             ->with(['success' => 'Успешно сохранено']);
     }
 

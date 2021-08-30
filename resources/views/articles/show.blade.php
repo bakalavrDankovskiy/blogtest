@@ -12,10 +12,13 @@
                 <div class="blog-post justify-content-center mb-5 border-bottom">
                     <label for="created_at">Дата написания</label>
                     <p class="blog-post-meta" id="created_at">{{$article->created_at}}</p>
-                    @if(!$article->is_published)
-                        <p class="tab-content">{{$article->txt}}</p>
+                    <label for="excerpt" class="font-italic font-weight-bold">Краткое описание</label>
+                    <p class="text-justify">{{$article->excerpt}}</p>
+                    <label for="txt" class="font-italic font-weight-bold">Текст статьи</label>
+                    <p class="text-justify">{{$article->txt}}</p>
+                @if(!$article->is_published)
+                        <p class="alert-info">Не опубликована</p>
                     @endif
-                    <p class="alert-info">Не опубликована</p>
                     <a href="{{route('articles.edit', $article->slug)}}">
                         <button class="btn btn-warning">Отредактировать</button>
                     </a>

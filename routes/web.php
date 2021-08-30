@@ -7,7 +7,7 @@ use App\Http\Controllers\FeedBackMessageController;
 /**
  * Вывод всех статей блога
  */
-Route::get('/', [ArticleController::class, 'index'])
+Route::get('/{articles?}', [ArticleController::class, 'index'])
     ->name('articles.index');
 
 /**
