@@ -2,15 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Tag;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-//MODELS
-use App\Models\BlogPost;
-use App\Models\BlogCategory;
-use App\Observers\BlogPostObserver;
-use App\Observers\BlogCategoryObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         LengthAwarePaginator::useBootstrap();
         Paginator::useBootstrap();
+        view()->composer('articles.includes.tags.tagsSideBar', function($view){
+            return $view->with('tags', Tag::tagsCloud());
+        });
     }
 }
