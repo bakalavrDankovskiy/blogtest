@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
-use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Tag;
+use Illuminate\Support\Collection;
+use App\Services\TagsSynchronizer;
 
 class ArticleController extends Controller
 {
@@ -21,7 +23,8 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::orderBy('created_at', 'DESC')->get();
-        return view('articles.index', compact('articles'));
+        $tags = Tag::orderBy('created_at', 'DESC')->get();
+        return view('articles.index', compact('articles', 'tags'));
     }
 
     public function create()
@@ -29,10 +32,22 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
-    public function store(ArticleCreateRequest $request)
+    public function store(ArticleCreateRequest $request, TagsSynchronizer $tagsSynchronizer)
     {
         $data = $request->input();
-        Article::create($data);
+        $article = new Article();
+        $result = $article->create($data);
+
+        /**
+         * @var $tagsFromRequest Collection
+         */
+        $tagsFromRequest = collect(
+            explode(', ', request('tags')))
+            ->keyBy(function ($item) {
+                return $item;
+            });
+
+        $tagsSynchronizer->sync($tagsFromRequest, $result);
         return redirect()
             ->route('articles.create')
             ->with(['success' => 'Успешно сохранено']);
@@ -61,10 +76,22 @@ class ArticleController extends Controller
      * @param Article $article
      * Обновление статьи
      */
-    public function update(ArticleUpdateRequest $request, Article $article)
+    public function update(ArticleUpdateRequest $request, TagsSynchronizer $tagsSynchronizer, Article $article)
     {
         $data = $request->all();
-        $result = $article->update($data);
+        $article->update($data);
+
+        /**
+         * @var $tagsFromRequest Collection
+         */
+        $tagsFromRequest = collect(
+            explode(', ', request('tags')))
+            ->keyBy(function ($item) {
+                return $item;
+            });
+
+        $tagsSynchronizer->sync($tagsFromRequest, $article);
+
         return redirect()
             ->route('articles.edit', $article->slug)
             ->with(['success' => 'Успешно сохранено']);
