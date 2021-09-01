@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
 
@@ -48,28 +49,36 @@ class ArticleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('articles.edit', compact('article'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * @param ArticleUpdateRequest $request
+     * @param Article $article
+     * Обновление статьи
+     */
+    public function update(ArticleUpdateRequest $request, Article $article)
     {
-        //
+        $data = $request->all();
+        $result = $article->update($data);
+        return redirect()
+            ->route('articles.edit', $article->slug)
+            ->with(['success' => 'Успешно сохранено']);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+        return redirect()
+            ->route('articles.index')
+            ->with(['success' => 'Успешно удалено']);
     }
 }

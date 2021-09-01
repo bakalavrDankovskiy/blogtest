@@ -33,9 +33,5 @@ class AppServiceProvider extends ServiceProvider
     {
         LengthAwarePaginator::useBootstrap();
         Paginator::useBootstrap();
-
-        BlogPost::observe(BlogPostObserver::class);
-        BlogCategory::observe(BlogCategoryObserver::class);
-
     }
 }
