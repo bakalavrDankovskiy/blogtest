@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\FeedbackMessage;
 use Illuminate\Database\Seeder;
 use App\Models\Article;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,9 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        //$this->call(UsersTableSeeder::class);
-        $this->call(ArticlesTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        Article::factory(15)->create();
         FeedbackMessage::factory(12)->create();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
+use App\Mail\ArticleCreated;
 use App\Models\Article;
 use App\Models\Tag;
 use Illuminate\Support\Collection;
@@ -17,14 +18,23 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:update,article')->except(['index', 'create', 'store']);
+    }
+
     /**
      * Вывод всех статей в порядке убывания даты создания
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at', 'DESC')->get();
-        $tags = Tag::orderBy('created_at', 'DESC')->get();
-        return view('articles.index', compact('articles', 'tags'));
+        $articles = auth()->user()->articles()->with('tags')->latest()->get();
+
+        cache()->put('demo', 'test_data');
+        $demo = cache()->get('demo');
+        dump($demo);
+        return view('articles.index', compact('articles'));
     }
 
     public function create()
@@ -36,6 +46,7 @@ class ArticleController extends Controller
     {
         $data = $request->input();
         $article = new Article();
+        $data['owner_id'] = auth()->id();
         $result = $article->create($data);
 
         /**
@@ -48,6 +59,9 @@ class ArticleController extends Controller
             });
 
         $tagsSynchronizer->sync($tagsFromRequest, $result);
+        \Mail::to('author@gmail.com')->send(
+            new ArticleCreated();
+        );
         return redirect()
             ->route('articles.create')
             ->with(['success' => 'Успешно сохранено']);
@@ -68,6 +82,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
         return view('articles.edit', compact('article'));
     }
 

@@ -10,6 +10,7 @@ class Article extends Model
     use HasFactory;
     protected $fillable
         = [
+            'owner_id',
             'title',
             'slug',
             'txt',
@@ -30,5 +31,10 @@ class Article extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'tag_article');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

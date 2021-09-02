@@ -25,9 +25,13 @@
 
                         <p>{{$article->excerpt}}</p>
 
-                        @if(!$article->is_published)
-                            <p class="alert-info">Не опубликована</p>
-                        @endif
+                        <div class="row justify-content-end">
+                            @if(!$article->is_published)
+                                <p class="alert-info col-8">Не опубликована</p>
+                            @endif
+                            <blockquote class="font-italic font-weight-bold col-4">
+                                Автор: {{$article->owner->name}}</blockquote>
+                        </div>
 
                     </div><!-- /.blog-post -->
                 @endforeach
