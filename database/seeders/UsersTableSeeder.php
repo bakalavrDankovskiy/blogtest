@@ -19,16 +19,23 @@ class UsersTableSeeder extends Seeder
         //User::factory(10)->create();
         $data = [
             [
-              'name' => 'Автор неизвестен',
-              'email' => 'un_author@gmail.com',
-              'password' => bcrypt(str_random(16)),
+              'name' => 'User',
+              'email' => 'author@gmail.com',
+              'password' => bcrypt('user'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
             ],
             [
-                'name' => 'Автор',
-                'email' => 'author@gmail.com',
-                'password' => bcrypt(123123),
+                'name' => 'User2',
+                'email' => 'author2@gmail.com',
+                'password' => bcrypt('user'),
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => 'User3',
+                'email' => 'author3@gmail.com',
+                'password' => bcrypt('user'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
             ],
