@@ -30,10 +30,6 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = auth()->user()->articles()->with('tags')->latest()->get();
-
-        cache()->put('demo', 'test_data');
-        $demo = cache()->get('demo');
-        dump($demo);
         return view('articles.index', compact('articles'));
     }
 
@@ -59,9 +55,6 @@ class ArticleController extends Controller
             });
 
         $tagsSynchronizer->sync($tagsFromRequest, $result);
-        \Mail::to('author@gmail.com')->send(
-            new ArticleCreated();
-        );
         return redirect()
             ->route('articles.create')
             ->with(['success' => 'Успешно сохранено']);
