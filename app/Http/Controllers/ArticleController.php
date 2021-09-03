@@ -59,9 +59,7 @@ class ArticleController extends Controller
             });
 
         $tagsSynchronizer->sync($tagsFromRequest, $result);
-        \Mail::to('author@gmail.com')->send(
-            new ArticleCreated();
-        );
+
         return redirect()
             ->route('articles.create')
             ->with(['success' => 'Успешно сохранено']);
