@@ -6,7 +6,6 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-
 class ArticleFactory extends Factory
 {
     /**
@@ -26,11 +25,10 @@ class ArticleFactory extends Factory
         $title = $this->faker->sentence(rand(3, 8), true);
         $slug = Str::slug($title);
         $txt = $this->faker->realText(rand(1000, 4000));
-        $excerpt = Str::limit($txt, 400);
+        $excerpt = Str::limit($txt, 100);
         $createdAt = $this->faker->dateTimeBetween('-6 months',
             '-3 months');
-        $is_published = rand(1,10) > 3;
-
+        $is_published = rand(1, 10) > 3;
 
         $data = [
             'title' => $title,
@@ -39,7 +37,7 @@ class ArticleFactory extends Factory
             'excerpt' => $excerpt,
             'created_at' => $createdAt,
             'updated_at' => $createdAt,
-            'is_published'=> $is_published,
+            'is_published' => $is_published,
         ];
 
         return $data;

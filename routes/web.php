@@ -10,8 +10,7 @@ use App\Http\Controllers\FeedBackMessageController;
  */
 Route::get('/{articles?}', [ArticleController::class, 'index'])
     ->where('articles', 'articles')
-    ->name('articles.index')
-;
+    ->name('articles.index');
 
 /**
  * Создать статью
