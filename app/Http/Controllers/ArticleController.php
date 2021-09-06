@@ -30,10 +30,6 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = auth()->user()->articles()->with('tags')->latest()->get();
-
-        cache()->put('demo', 'test_data');
-        $demo = cache()->get('demo');
-        dump($demo);
         return view('articles.index', compact('articles'));
     }
 
@@ -47,8 +43,9 @@ class ArticleController extends Controller
         $data = $request->input();
         $article = new Article();
         $data['owner_id'] = auth()->id();
-        $result = $article->create($data);
-
+        $article = $article->create($data);
+        \Mail::to($article->owner->email)
+            ->send(new ArticleCreated($article));
         /**
          * @var $tagsFromRequest Collection
          */
@@ -58,7 +55,7 @@ class ArticleController extends Controller
                 return $item;
             });
 
-        $tagsSynchronizer->sync($tagsFromRequest, $result);
+        $tagsSynchronizer->sync($tagsFromRequest, $article);
 
         return redirect()
             ->route('articles.create')
