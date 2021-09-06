@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
-use App\Mail\ArticleCreated;
 use App\Models\Article;
-use App\Models\Tag;
-use Illuminate\Support\Collection;
 use App\Services\TagsSynchronizer;
 
 class ArticleController extends Controller
@@ -43,18 +40,16 @@ class ArticleController extends Controller
         $data = $request->input();
         $article = new Article();
         $data['owner_id'] = auth()->id();
-        $result = $article->create($data);
+        $article = $article->create($data);
 
         /**
-         * @var $tagsFromRequest Collection
+         * @var $tagsFromRequest \Illuminate\Support\Collection
          */
-        $tagsFromRequest = collect(
-            explode(', ', request('tags')))
-            ->keyBy(function ($item) {
-                return $item;
-            });
+        $tagsFromRequest =
+            collect(explode(', ', request('tags')));
 
-        $tagsSynchronizer->sync($tagsFromRequest, $result);
+        $tagsSynchronizer->sync($tagsFromRequest, $article);
+
         return redirect()
             ->route('articles.create')
             ->with(['success' => 'Успешно сохранено']);
@@ -90,13 +85,10 @@ class ArticleController extends Controller
         $article->update($data);
 
         /**
-         * @var $tagsFromRequest Collection
+         * @var $tagsFromRequest \Illuminate\Support\Collection
          */
-        $tagsFromRequest = collect(
-            explode(', ', request('tags')))
-            ->keyBy(function ($item) {
-                return $item;
-            });
+        $tagsFromRequest =
+            collect(explode(', ', request('tags')));
 
         $tagsSynchronizer->sync($tagsFromRequest, $article);
 
