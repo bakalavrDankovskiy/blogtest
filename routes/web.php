@@ -2,12 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\FeedBackMessageController;
 
 /**
  * Вывод всех статей блога
  */
 Route::get('/{articles?}', [ArticleController::class, 'index'])
+    ->where('articles', 'articles')
     ->name('articles.index');
 
 /**
@@ -45,6 +47,11 @@ Route::delete('/articles/{article:slug}/delete', [ArticleController::class, 'des
 Route::post('/articles', [ArticleController::class, 'store'])
     ->name('articles.store');
 
+/**
+ * Вывести все статьи по тегу {tag}
+ */
+Route::get('/articles/tags/{tag}', [TagController::class, 'index'])
+    ->name('articles.tag');
 /**
  * Страница About
  */
