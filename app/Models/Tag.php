@@ -22,9 +22,4 @@ class Tag extends Model
     {
         return $this->BelongsToMany(Article::class, 'tag_article');
     }
-
-    public function getRouteKeyName()
-    {
-        return 'name';
-    }
 }

@@ -22,11 +22,10 @@ class FeedBackMessageController extends Controller
     public function store(FeedbackMessageCreateRequest $request)
     {
         $data = $request->input();
-        $item = (new FeedbackMessage())->create($data);
+        FeedbackMessage::create($data);
 
         return redirect()
             ->route('feedbackMessage.create')
             ->with(['success' => 'Успешно сохранено']);
-
     }
 }
