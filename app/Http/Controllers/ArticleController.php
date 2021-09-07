@@ -47,13 +47,10 @@ class ArticleController extends Controller
         \Mail::to($article->owner->email)
             ->send(new ArticleCreated($article));
         /**
-         * @var $tagsFromRequest Collection
+         * @var $tagsFromRequest \Illuminate\Support\Collection
          */
-        $tagsFromRequest = collect(
-            explode(', ', request('tags')))
-            ->keyBy(function ($item) {
-                return $item;
-            });
+        $tagsFromRequest =
+            collect(explode(', ', request('tags')));
 
         $tagsSynchronizer->sync($tagsFromRequest, $article);
 
@@ -92,13 +89,10 @@ class ArticleController extends Controller
         $article->update($data);
 
         /**
-         * @var $tagsFromRequest Collection
+         * @var $tagsFromRequest \Illuminate\Support\Collection
          */
-        $tagsFromRequest = collect(
-            explode(', ', request('tags')))
-            ->keyBy(function ($item) {
-                return $item;
-            });
+        $tagsFromRequest =
+            collect(explode(', ', request('tags')));
 
         $tagsSynchronizer->sync($tagsFromRequest, $article);
 

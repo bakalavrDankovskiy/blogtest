@@ -179,6 +179,7 @@ return [
          * My service providers
          */
         App\Providers\TagsSynchronizerServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
     ],
 
     /*
