@@ -23,6 +23,7 @@ class ArticleFactory extends Factory
     public function definition()
     {
         $title = $this->faker->sentence(rand(3, 8), true);
+        $ownerId = rand(1,3);
         $slug = Str::slug($title);
         $txt = $this->faker->realText(rand(1000, 4000));
         $excerpt = Str::limit($txt, 100);
@@ -31,6 +32,7 @@ class ArticleFactory extends Factory
         $is_published = rand(1, 10) > 3;
 
         $data = [
+            'owner_id' => $ownerId,
             'title' => $title,
             'slug' => $slug,
             'txt' => $txt,

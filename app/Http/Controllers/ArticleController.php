@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
-use Illuminate\Support\Collection;
 use App\Services\TagsSynchronizer;
 
 class ArticleController extends Controller
@@ -16,12 +15,18 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:update,article')->except(['index', 'create', 'store']);
+    }
+
     /**
      * Вывод всех статей в порядке убывания даты создания
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at', 'DESC')->get();
+        $articles = auth()->user()->articles()->with('tags')->latest()->get();
         return view('articles.index', compact('articles'));
     }
 
@@ -34,10 +39,11 @@ class ArticleController extends Controller
     {
         $data = $request->input();
         $article = new Article();
+        $data['owner_id'] = auth()->id();
         $article = $article->create($data);
 
         /**
-         * @var $tagsFromRequest Collection
+         * @var $tagsFromRequest \Illuminate\Support\Collection
          */
         $tagsFromRequest =
             collect(explode(', ', request('tags')));
@@ -64,6 +70,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
         return view('articles.edit', compact('article'));
     }
 
@@ -78,7 +85,7 @@ class ArticleController extends Controller
         $article->update($data);
 
         /**
-         * @var $tagsFromRequest Collection
+         * @var $tagsFromRequest \Illuminate\Support\Collection
          */
         $tagsFromRequest =
             collect(explode(', ', request('tags')));

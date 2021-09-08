@@ -15,6 +15,7 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedBigInteger('owner_id');
             $table->string('title');
             $table->string('slug')->unique();
 
@@ -25,6 +26,12 @@ class CreateArticlesTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table
+                ->foreign('owner_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
