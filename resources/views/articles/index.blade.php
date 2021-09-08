@@ -7,6 +7,12 @@
     @endphp
 
     <div class="container">
+        @admin
+        <div class="alert-success">
+            ЭТО ДОЛЖЕН ВИДЕТЬ ТОЛЬКО АДМИН
+        </div>
+        @endadmin
+
         @include('layouts.includes.result_messages')
         <div class="row">
             <div class="blog-main col-8">

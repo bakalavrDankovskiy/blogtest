@@ -53,4 +53,9 @@ class User extends Authenticatable
         return User::where('email','=', config('app.admin_email'))
             ->first();
     }
+
+    public function role()
+    {
+        return $this->BelongsTo(Role::class);
+    }
 }
