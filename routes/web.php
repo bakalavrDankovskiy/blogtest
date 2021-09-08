@@ -2,8 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\FeedBackMessageController;
+use App\Http\Controllers\TagController;
+
+/**
+ * Авторизация и регистрация
+ */
+Auth::routes();
 
 /**
  * Вывод всех статей блога

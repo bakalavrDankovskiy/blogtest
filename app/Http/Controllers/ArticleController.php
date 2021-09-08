@@ -6,8 +6,6 @@ use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Mail\ArticleCreated;
 use App\Models\Article;
-use App\Models\Tag;
-use Illuminate\Support\Collection;
 use App\Services\TagsSynchronizer;
 
 class ArticleController extends Controller

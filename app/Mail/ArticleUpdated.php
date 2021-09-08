@@ -7,11 +7,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ArticleCreated extends Mailable
+class ArticleUpdated extends Mailable
 {
     use Queueable, SerializesModels;
 
     private Article $article;
+
     /**
      * Create a new message instance.
      *
@@ -30,6 +31,6 @@ class ArticleCreated extends Mailable
     public function build()
     {
         return $this
-            ->markdown('mail.articles.articleCreated', ['article' => $this->article]);
+            ->markdown('mail.articles.articleUpdated', ['article' => $this->article]);
     }
 }

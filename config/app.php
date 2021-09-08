@@ -123,6 +123,11 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    /**
+     * Админский email
+     */
+    'admin_email' => 'author@gmail.com',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -180,6 +185,7 @@ return [
          */
         App\Providers\TagsSynchronizerServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        App\Providers\ArticleModelServiceProvider::class,
     ],
 
     /*
