@@ -19,8 +19,8 @@ class UsersTableSeeder extends Seeder
         //User::factory(10)->create();
         $data = [
             [
-              'name' => 'User',
-              'email' => 'author@gmail.com',
+                'name' => 'Admin',
+                'email' => 'skillboxlaravel@gmail.com',
               'role_id' => 1,
               'password' => bcrypt('user'),
                 'email_verified_at' => now(),

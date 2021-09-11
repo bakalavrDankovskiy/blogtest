@@ -24,7 +24,7 @@ Route::get('/articles/create', [ArticleController::class, 'create'])
     ->name('articles.create');
 
 /**
- * Вывести конкретную статью
+ * Вывести конкретную статью\
  */
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])
     ->name('articles.show');
