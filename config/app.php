@@ -126,7 +126,7 @@ return [
     /**
      * Админский email
      */
-    'admin_email' => 'author@gmail.com',
+    'admin_email' => 'skillboxlaravel@gmail.com',
 
     /*
     |--------------------------------------------------------------------------
