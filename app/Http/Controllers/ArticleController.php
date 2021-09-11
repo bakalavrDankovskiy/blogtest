@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
-use App\Mail\ArticleCreated;
 use App\Models\Article;
 use App\Services\TagsSynchronizer;
 
@@ -42,8 +41,7 @@ class ArticleController extends Controller
         $article = new Article();
         $data['owner_id'] = auth()->id();
         $article = $article->create($data);
-        \Mail::to($article->owner->email)
-            ->send(new ArticleCreated($article));
+
         /**
          * @var $tagsFromRequest \Illuminate\Support\Collection
          */

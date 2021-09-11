@@ -2,12 +2,10 @@
 
 namespace App\Observers;
 
-// Mail
-use App\Mail\{
-    ArticleCreated,
-    ArticleDeleted,
-    ArticleUpdated,
-};
+// Notifications
+use App\Notifications\ArticleCreatedNotification;
+use App\Notifications\ArticleDeletedNotification;
+use App\Notifications\ArticleUpdatedNotification;
 
 // Models
 use App\Models\{
@@ -25,9 +23,8 @@ class ArticleObserver
      */
     public function created(Article $article)
     {
-        \Mail::to((User::admin())->email)->send(
-            new ArticleCreated($article)
-        );
+        User::admin()
+            ->notify(new ArticleCreatedNotification($article));
     }
 
     /**
@@ -38,9 +35,8 @@ class ArticleObserver
      */
     public function updated(Article $article)
     {
-        \Mail::to(User::admin()->email)->send(
-            new ArticleUpdated($article)
-        );
+        User::admin()
+            ->notify(new ArticleUpdatedNotification($article));
     }
 
     /**
@@ -51,8 +47,7 @@ class ArticleObserver
      */
     public function deleted(Article $article)
     {
-        \Mail::to(User::admin()->email)->send(
-            new ArticleDeleted($article)
-        );
+        User::admin()
+            ->notify(new ArticleDeletedNotification($article));
     }
 }
