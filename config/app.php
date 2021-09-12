@@ -123,6 +123,11 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    /**
+     * Админский email
+     */
+    'admin_email' => 'skillboxlaravel@gmail.com',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -174,11 +179,13 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         /*
          * My service providers
          */
         App\Providers\TagsSynchronizerServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        App\Providers\ArticleModelServiceProvider::class,
     ],
 
     /*

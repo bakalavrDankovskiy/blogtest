@@ -31,6 +31,13 @@
                             @endif
                             <blockquote class="font-italic font-weight-bold col-4">
                                 Автор: {{$article->owner->name}}</blockquote>
+                                @can('delete', $article)
+                                    <form action="{{route('articles.delete', $article->slug)}}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" type="submit">Удалить</button>
+                                    </form>
+                                @endcan
                         </div>
 
                     </div><!-- /.blog-post -->
