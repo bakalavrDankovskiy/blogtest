@@ -45,17 +45,28 @@ class User extends Authenticatable
         return $this->hasMany(Article::class, 'owner_id');
     }
 
+    public function role()
+    {
+        return $this
+            ->BelongsTo(Role::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name == 'admin';
+    }
+
+    public function isNotAdmin()
+    {
+        return $this->role->name !== 'admin';
+    }
+
     /*
      * Временное решение! Возвращает админа
      */
     public static function admin()
     {
-        return User::where('email','=', config('app.admin_email'))
+        return User::where('email', '=', config('app.admin_email'))
             ->first();
-    }
-
-    public function role()
-    {
-        return $this->BelongsTo(Role::class);
     }
 }

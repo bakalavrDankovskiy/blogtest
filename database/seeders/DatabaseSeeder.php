@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         Article::factory(15)->create();
         FeedbackMessage::factory(12)->create();

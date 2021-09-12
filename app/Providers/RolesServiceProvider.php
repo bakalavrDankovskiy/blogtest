@@ -31,7 +31,7 @@ class RolesServiceProvider extends ServiceProvider
          * @admin
          */
         \Blade::directive('admin', function () {
-        dd(auth()->user()->role());
+        return "<?php if(auth()->check() && auth()->user()->role->name == 'admin') : ?>";
         });
         \Blade::directive('endadmin', function () {
             return "<?php endif; ?>";

@@ -15,9 +15,14 @@ class TagController extends Controller
     {
         $articles = $tag
             ->articles()
-            ->where('owner_id', '=', auth()->user()->id)
             ->with('tags')
             ->get();
+
+        if (!(auth()->user()->isAdmin())) {
+            $articles = $articles
+                ->where('owner_id', '=', auth()->user()->id);
+        }
+
         return view('articles.index', compact('articles'));
     }
 }

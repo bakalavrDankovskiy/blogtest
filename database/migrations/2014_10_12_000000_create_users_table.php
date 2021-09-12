@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class CreateUsersTable extends Migration
 {
@@ -28,6 +29,20 @@ class CreateUsersTable extends Migration
                 ->references('id')
                 ->on('roles');
         });
+
+        /**
+         * Создание админа при миграции
+         */
+        $admin = [
+            'name' => 'Admin',
+            'email' => config('app.admin_email'),
+            'role_id' => 1,
+            'password' => bcrypt('admin'),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+        ];
+
+        DB::table('users')->insert($admin);
     }
 
     /**

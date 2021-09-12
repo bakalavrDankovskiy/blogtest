@@ -9,11 +9,11 @@
     <div class="row">
         <div class="blog-main col-8">
             <h3 class="pb-3 mb-4 font-italic border-bottom">
-                Мои статьи
+                Статьи всех пользователей
             </h3>
             @foreach($articles as $article)
                 <div class="blog-post justify-content-center mb-5 border-bottom">
-                    <a href="{{route('articles.show', $article->slug)}}"><h2
+                    <a href="{{route('admin.articles.show', $article->slug)}}"><h2
                             class="blog-post-title">{{$article->title}}</h2></a>
                     <p class="blog-post-meta">{{$article->created_at}}</p>
 
@@ -24,15 +24,19 @@
                     <p>{{$article->excerpt}}</p>
 
                     <div class="row justify-content-end">
+                        @if(!$article->is_published)
+                            <p class="alert-info col-8">Не опубликована</p>
+                        @endif
                         <blockquote class="font-italic font-weight-bold col-4">
                             Автор: {{$article->owner->name}}</blockquote>
-                        @can('delete', $article)
-                            <form action="{{route('articles.delete', $article->slug)}}" method="POST">
+                            <a href="{{route('admin.articles.edit', $article->slug)}}">
+                                <button class="btn btn-warning">Отредактировать</button>
+                            </a>
+                            <form action="{{route('admin.articles.destroy', $article->slug)}}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-danger" type="submit">Удалить</button>
                             </form>
-                        @endcan
                     </div>
                 </div><!-- /.blog-post -->
             @endforeach

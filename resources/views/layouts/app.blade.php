@@ -17,9 +17,10 @@
     <!-- Styles -->
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 </head>
-
-        @include('layouts.includes.header') <!-- header include-->
-        @yield('content') <!-- content section -->
-        @include('layouts.includes.footer') <!-- footer include-->
+@include('layouts.includes.header')<!-- header include-->
+<div class="container">
+@yield('content') <!-- content section -->
+</div>
+@include('layouts.includes.footer') <!-- footer include-->
 
 

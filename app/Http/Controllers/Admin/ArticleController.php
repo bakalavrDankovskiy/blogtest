@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Services\TagsSynchronizer;
@@ -17,8 +17,7 @@ class ArticleController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('can:update,article')->except(['index', 'create', 'store']);
+        $this->middleware('admin');
     }
 
     /**
@@ -26,47 +25,13 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = auth()
-            ->user()
-            ->articles()
-            ->with('tags')
-            ->where('is_published', 1)
-            ->latest()->get();
-        return view('articles.index', compact('articles'));
+        $articles = Article::with('tags')->latest()->get();
+        return view('admin.articles.index', compact('articles'));
     }
 
-    public function create()
-    {
-        return view('articles.create');
-    }
-
-    public function store(ArticleCreateRequest $request, TagsSynchronizer $tagsSynchronizer)
-    {
-        $data = $request->input();
-        $article = new Article();
-        $data['owner_id'] = auth()->id();
-        $article = $article->create($data);
-
-        /**
-         * @var $tagsFromRequest \Illuminate\Support\Collection
-         */
-        $tagsFromRequest =
-            collect(explode(', ', request('tags')));
-
-        $tagsSynchronizer->sync($tagsFromRequest, $article);
-
-        return redirect()
-            ->route('articles.create')
-            ->with(['success' => 'Успешно сохранено']);
-    }
-
-    /**
-     * Display the specified resource.
-     * @param Article $article
-     */
     public function show(Article $article)
     {
-        return view('articles.show', compact('article'));
+        return view('admin.articles.show', compact('article'));
     }
 
     /**
@@ -75,8 +40,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $this->authorize('update', $article);
-        return view('articles.edit', compact('article'));
+        return view('admin.articles.edit', compact('article'));
     }
 
     /**
@@ -98,7 +62,7 @@ class ArticleController extends Controller
         $tagsSynchronizer->sync($tagsFromRequest, $article);
 
         return redirect()
-            ->route('articles.edit', $article->slug)
+            ->back()
             ->with(['success' => 'Успешно сохранено']);
     }
 
@@ -110,7 +74,7 @@ class ArticleController extends Controller
     {
         $article->delete();
         return redirect()
-            ->route('articles.index')
+            ->route('admin.articles.index')
             ->with(['success' => 'Успешно удалено']);
     }
 }
