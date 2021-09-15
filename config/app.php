@@ -186,6 +186,7 @@ return [
         App\Providers\TagsSynchronizerServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\ArticleModelServiceProvider::class,
+        App\Providers\RolesServiceProvider::class,
     ],
 
     /*

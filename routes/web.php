@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FeedBackMessageController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 
 /**
  * Авторизация и регистрация
@@ -78,7 +79,30 @@ Route::post('/contacts/', [FeedBackMessageController::class, 'store'])
     ->name('feedbackMessage.store');
 
 /**
- * Показ обращений в админке
+ * Для админов
  */
-Route::get('/admin/feedback', [FeedBackMessageController::class, 'index'])
-    ->name('admin.feedback');
+$groupData = [
+    'prefix' => 'admin',
+    'middleware' => 'admin',
+];
+Route::group($groupData, function () {
+    /*
+     * Главная страница админки
+     */
+    Route::view('/', 'admin.index')
+        ->name('admin.index');
+
+    /**
+     * Показ обращений в админке
+     */
+    Route::get('/feedback', [FeedBackMessageController::class, 'index'])
+        ->name('admin.feedback');
+
+    /*
+     * Ресурс для статей
+     */
+    Route::resource('articles', AdminArticleController::class)
+        ->names('admin.articles')
+        ->except(['create', 'store']);
+});
+

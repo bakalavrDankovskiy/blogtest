@@ -19,15 +19,17 @@ class UsersTableSeeder extends Seeder
         //User::factory(10)->create();
         $data = [
             [
-              'name' => 'Admin',
-              'email' => 'skillboxlaravel@gmail.com',
-              'password' => bcrypt('user'),
+                'name' => 'User1',
+                'email' => 'author@gmail.com',
+                'role_id' => 2,
+                'password' => bcrypt('user'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'User2',
                 'email' => 'author2@gmail.com',
+                'role_id' => 2,
                 'password' => bcrypt('user'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
@@ -35,6 +37,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'User3',
                 'email' => 'author3@gmail.com',
+                'role_id' => 2,
                 'password' => bcrypt('user'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
