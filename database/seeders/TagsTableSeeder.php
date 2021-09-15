@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
-use App\Models\Article;
 
-class ArticlesTableSeeder extends Seeder
+class TagsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        Article::factory(30)->create();
+        Tag::factory(20)->create();
     }
 }
