@@ -106,3 +106,7 @@ Route::group($groupData, function () {
         ->except(['create', 'store']);
 });
 
+Route::get('/test', function (){
+    phpinfo();
+});
+

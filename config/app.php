@@ -187,6 +187,7 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\ArticleModelServiceProvider::class,
         App\Providers\RolesServiceProvider::class,
+        App\Providers\PushallServiceProvider::class,
     ],
 
     /*
