@@ -3,9 +3,11 @@
 namespace App\Observers;
 
 // Notifications
-use App\Notifications\ArticleCreatedNotification;
-use App\Notifications\ArticleDeletedNotification;
-use App\Notifications\ArticleUpdatedNotification;
+use App\Notifications\{
+    ArticleCreatedNotification,
+    ArticleDeletedNotification,
+    ArticleUpdatedNotification,
+};
 
 // Models
 use App\Models\{

@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Notifications\ArticleCreatedNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Collection;
 
 class NotificateUsersAboutNewArticlesCommand extends Command
 {
@@ -42,20 +41,14 @@ class NotificateUsersAboutNewArticlesCommand extends Command
      */
     public function handle()
     {
-        /**
-         * @var $articles Collection
-         */
         $articles = Article::where('created_at', '>', $this->formatPeriod())->get();
 
-        /**
-         * @var $users Collection
-         */
-        $users = User::all();
-
         if ($articles->isNotEmpty()) {
-            $articles->map(function ($article) use ($users) {
-                $users->map->notify(new ArticleCreatedNotification($article));
-            });
+            foreach ($articles as $article) {
+                User::chunk(100, function ($users) use ($article) {
+                    $users->each->notify(new ArticleCreatedNotification($article));
+                });
+            }
             $this->line('Уведомления отправлены');
         } else {
             $this->line('Новых статей за этот период нет.');
@@ -70,15 +63,15 @@ class NotificateUsersAboutNewArticlesCommand extends Command
 
     private function validatePeriod(): array
     {
-        try {
-            $pattern = '/^\d{1,} (years|months|weeks|days|hours|minutes|seconds){1}$/';
-            $period = implode(' ', $this->argument('period'));
-            preg_match($pattern, $period, $result);
-            throw_if(empty($result));
-            return explode(' ', $result[0]);
-        } catch (\Exception $exception) {
+        $pattern = '/^\d{1,} (years|months|weeks|days|hours|minutes|seconds){1}$/';
+        $period = implode(' ', $this->argument('period'));
+        preg_match($pattern, $period, $result);
+
+        if (empty($result)) {
             $this->warn("Неправильный формат, введите: {number} {years|months|days|etc}");
             exit;
+        } else {
+            return explode(' ', $result[0]);
         }
     }
 }
