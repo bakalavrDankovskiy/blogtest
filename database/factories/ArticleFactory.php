@@ -23,12 +23,12 @@ class ArticleFactory extends Factory
     public function definition()
     {
         $title = $this->faker->sentence(rand(3, 8), true);
-        $ownerId = rand(1,3);
+        $ownerId = rand(1,4);
         $slug = Str::slug($title);
         $txt = $this->faker->realText(rand(1000, 4000));
         $excerpt = Str::limit($txt, 100);
-        $createdAt = $this->faker->dateTimeBetween('-6 months',
-            '-3 months');
+        $createdAt = $this->faker->dateTimeBetween('-2 months',
+            '-1 days');
         $is_published = rand(1, 10) > 3;
 
         $data = [
