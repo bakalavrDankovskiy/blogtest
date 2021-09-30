@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration
             'name' => 'Admin',
             'email' => config('app.admin_email'),
             'role_id' => 1,
-            'password' => bcrypt('admin'),
+            'password' => bcrypt(config('app.admin_password')),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];

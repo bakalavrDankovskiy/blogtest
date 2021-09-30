@@ -86,27 +86,13 @@ $groupData = [
     'middleware' => 'admin',
 ];
 Route::group($groupData, function () {
-    /*
-     * Главная страница админки
-     */
     Route::view('/', 'admin.index')
         ->name('admin.index');
 
-    /**
-     * Показ обращений в админке
-     */
     Route::get('/feedback', [FeedBackMessageController::class, 'index'])
         ->name('admin.feedback');
 
-    /*
-     * Ресурс для статей
-     */
-    Route::resource('articles', AdminArticleController::class)
-        ->names('admin.articles')
-        ->except(['create', 'store']);
-});
-
-Route::get('/test', function (){
-    phpinfo();
+    Route::get('/articles', [AdminArticleController::class, 'index'])
+        ->name('admin.articles.index');
 });
 

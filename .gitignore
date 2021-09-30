@@ -14,3 +14,6 @@ yarn-error.log
 .idea
 .phpstorm.meta.php
 _ide_helper.php
+_docker/logs
+_docker/db/
+

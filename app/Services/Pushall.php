@@ -21,14 +21,16 @@ class Pushall
             "type" => "self",
             "id" => $this->id,
             "key" => $this->apiKey,
-            "text" => $title,
-            "title" => $txt,
+            "title" => $title,
+            "text" => $txt,
         ];
+
         curl_setopt_array($ch = curl_init(), [
             CURLOPT_URL => $this->url,
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_RETURNTRANSFER => true,
         ]);
+
         $result = curl_exec($ch); //получить ответ или ошибку
         curl_close($ch);
         return $result;

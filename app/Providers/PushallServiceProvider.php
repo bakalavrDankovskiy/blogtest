@@ -14,11 +14,9 @@ class PushallServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Pushall::class, function (){
-            return new Pushall(config('skillbox.pushall.api.key'), config('skillbox.pushall.api.id'));
+        $this->app->singleton('Pushall', function (){
+            return new Pushall(config('services.pushall.api.id'), config('services.pushall.api.key'));
         });
-
-
     }
 
     /**

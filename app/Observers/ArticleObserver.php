@@ -2,49 +2,19 @@
 
 namespace App\Observers;
 
-// Notifications
 use App\Notifications\{
     ArticleCreatedNotification,
     ArticleDeletedNotification,
     ArticleUpdatedNotification,
 };
-
-// Models
-use App\Services\Pushall;
 use App\Models\{
     Article,
     User
 };
+use App\Facades\Pushall;
 
 class ArticleObserver
 {
-    /**
-     * Handle the Article "created" event.
-     *
-
-     * @return void
-     */
-
-    private $pushall;
-
-    public function __construct(Pushall $pushall)
-    {
-        dd($pushall);
-        $this->pushall = $pushall;
-    }
-
-    public function created(Article $article)//, Pushall $pushall)
-    {
-        /**
-         * Pushall уведомление
-         */
-        //$pushall->send('Была создана статья ' . $article->title, $article->excerpt);
-        //dd($this->pushall);
-        $this->pushall->send('Была создана статья ' . $article->title, $article->excerpt);
-        User::admin()
-            ->notify(new ArticleCreatedNotification($article));
-    }
-
     /**
      * Handle the Article "updated" event.
      *
@@ -53,8 +23,36 @@ class ArticleObserver
      */
     public function updated(Article $article)
     {
+        /**
+         * Pushall уведомление
+         */
+        Pushall::send("Юзер {$article->owner->name} обновил статью '{$article->title}'", $article->excerpt);
+
+        /*
+         * Уведомление админа по почте
+         */
         User::admin()
             ->notify(new ArticleUpdatedNotification($article));
+    }
+
+    /**
+     * Handle the Article "created" event.
+     *
+     * @return void
+     */
+
+    public function created(Article $article)
+    {
+        /**
+         * Pushall уведомление
+         */
+        Pushall::send("Юзер {$article->owner->name} создал статью '{$article->title}'", $article->excerpt);
+
+        /*
+         * Уведомление админа по почте
+         */
+        User::admin()
+            ->notify(new ArticleCreatedNotification($article));
     }
 
     /**
@@ -65,6 +63,14 @@ class ArticleObserver
      */
     public function deleted(Article $article)
     {
+        /**
+         * Pushall уведомление
+         */
+        Pushall::send("Юзер {$article->owner->name} удалил статью '{$article->title}'", $article->excerpt);
+
+        /*
+         * Уведомление админа по почте
+         */
         User::admin()
             ->notify(new ArticleDeletedNotification($article));
     }

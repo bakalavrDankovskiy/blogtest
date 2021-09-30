@@ -26,23 +26,36 @@
                     <div class="row justify-content-end">
                         <blockquote class="font-italic font-weight-bold col-4">
                             Автор: {{$article->owner->name}}</blockquote>
-                        @can('delete', $article)
-                            <form action="{{route('articles.delete', $article->slug)}}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button class="btn btn-danger" type="submit">Удалить</button>
-                            </form>
-                        @endcan
+                        @admin
+                        <div class="row">
+                            <div class="col-7">
+                                @can('update', $article)
+                                    <a href="{{route('articles.edit', $article->slug)}}">
+                                        <button class="btn btn-warning">Отредактировать</button>
+                                    </a>
+                                @endcan
+                            </div>
+                            <div class="col-5">
+                                @can('delete', $article)
+                                    <form action="{{route('articles.delete', $article->slug)}}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" type="submit">Удалить</button>
+                                    </form>
+                                @endcan
+                            </div>
+                        </div>
+                        @endadmin
                     </div>
                 </div><!-- /.blog-post -->
             @endforeach
         </div><!-- /.blog-main -->
         <div class="tag-cloud col-4">
             <label for="tag-cloud-card" class="font-weight-bold">Облако тегов</label>
-            <div id="tag-cloud-card" class="card" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
+            <div id="tag-cloud-card" style="width: 18rem;">
+                <div class="d-grid gap-3">
                     @include('articles.includes.tags.tagsSideBar')
-                </ul>
+                </div>
             </div>
         </div><!-- /.tag-cloud -->
     </div><!-- /.row -->
