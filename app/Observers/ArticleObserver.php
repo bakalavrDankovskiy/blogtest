@@ -10,41 +10,16 @@ use App\Notifications\{
 };
 
 // Models
-use App\Services\Pushall;
 use App\Models\{
     Article,
     User
 };
 
+//Facades
+use App\Facades\Pushall;
+
 class ArticleObserver
 {
-    /**
-     * Handle the Article "created" event.
-     *
-
-     * @return void
-     */
-
-    private $pushall;
-
-    public function __construct(Pushall $pushall)
-    {
-        dd($pushall);
-        $this->pushall = $pushall;
-    }
-
-    public function created(Article $article)//, Pushall $pushall)
-    {
-        /**
-         * Pushall уведомление
-         */
-        //$pushall->send('Была создана статья ' . $article->title, $article->excerpt);
-        //dd($this->pushall);
-        $this->pushall->send('Была создана статья ' . $article->title, $article->excerpt);
-        User::admin()
-            ->notify(new ArticleCreatedNotification($article));
-    }
-
     /**
      * Handle the Article "updated" event.
      *
@@ -55,6 +30,26 @@ class ArticleObserver
     {
         User::admin()
             ->notify(new ArticleUpdatedNotification($article));
+    }
+
+    /**
+     * Handle the Article "created" event.
+     *
+     * @return void
+     */
+
+    public function created(Article $article)
+    {
+        /**
+         * Pushall уведомление
+         */
+        Pushall::send('Была создана статья ' . $article->title, $article->excerpt);
+
+        /*
+         * Уведомление админа по почте
+         */
+        User::admin()
+            ->notify(new ArticleCreatedNotification($article));
     }
 
     /**

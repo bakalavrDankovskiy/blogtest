@@ -24,11 +24,13 @@ class Pushall
             "text" => $title,
             "title" => $txt,
         ];
+
         curl_setopt_array($ch = curl_init(), [
             CURLOPT_URL => $this->url,
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_RETURNTRANSFER => true,
         ]);
+
         $result = curl_exec($ch); //получить ответ или ошибку
         curl_close($ch);
         return $result;
