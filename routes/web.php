@@ -5,10 +5,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FeedBackMessageController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\CommentController;
 
-Route::get('/test', function (){
-    dd(\App\Facades\Pushall::send('dsadas', 'dsadsa'));
-});
 /**
  * Авторизация и регистрация
  */
@@ -28,7 +26,7 @@ Route::get('/articles/create', [ArticleController::class, 'create'])
     ->name('articles.create');
 
 /**
- * Вывести конкретную статью\
+ * Вывести конкретную статью
  */
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])
     ->name('articles.show');
@@ -107,5 +105,12 @@ Route::group($groupData, function () {
     Route::resource('articles', AdminArticleController::class)
         ->names('admin.articles')
         ->except(['create', 'store']);
+
+    Route::get('admin/articles/{article}/changes', function (\App\Models\Article $article) {
+        return view('admin.articles.includes.articleHistory.changesHistory', ['histories' => $article->articleChanges]);
+    })->name('admin.articles.changes');
 });
 
+Route::resource('comments', CommentController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth');

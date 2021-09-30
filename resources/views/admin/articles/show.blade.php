@@ -2,16 +2,20 @@
 
 @section('content')
 
-    @php /** @var $article \App\Models\Article */@endphp
+    @php /** @var $article \App\Models\Article */
+         /** @var $comments \Illuminate\Support\Collection*/
+        $comments = $article->comments ?? collect();
+    @endphp
     <div class="container">
         <div class="row">
             <div class="blog-main col-8">
-                <h3 class="pb-3 mb-4 font-italic border-bottom">
-                    Статья "{{$article->title}}"
-                </h3>
+                <h3 class="pb-3 mb-4 font-italic border-bottom">Статья "{{$article->title}}"</h3>
+                    @if($article->articleChanges->isNotEmpty())
+                    <h4> <a href="{{route('admin.articles.changes', $article)}}">Просмотреть изменения</a></h4>
+                    @else <h4>Изменений статьи пока что нет</h4>
+                    @endif
                 <div class="blog-post justify-content-center mb-5 border-bottom">
-                    <label for="created_at">Дата написания</label>
-                    <p class="blog-post-meta" id="created_at">{{$article->created_at}}</p>
+                    <label for="created_at">Дата написания </label><p class="blog-post-meta" id="created_at">{{$article->created_at}}</p>
                     <blockquote class="font-italic font-weight-bold">Автор: {{$article->owner->name}}</blockquote>
 
                     @if($article->tags->isNotEmpty())
@@ -40,6 +44,7 @@
                         <button class="btn btn-danger" type="submit">Удалить</button>
                     </form>
                     @endcan
+                    @include('articles.includes.comments.commentSection')
                 </div><!-- /.blog-post -->
             </div><!-- /.blog-main -->
             <div class="tag-cloud col-4">

@@ -14,8 +14,8 @@ class CreateTagArticleTable extends Migration
     public function up()
     {
         Schema::create('tag_article', function (Blueprint $table) {
-            $table->unsignedInteger('article_id');
-            $table->unsignedInteger('tag_id');
+            $table->unsignedBigInteger('article_id');
+            $table->unsignedBigInteger('tag_id');
             $table->primary(['article_id', 'tag_id']);
             $table
                 ->foreign('article_id')

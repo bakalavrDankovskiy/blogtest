@@ -17,27 +17,15 @@ use App\Models\{
 
 //Facades
 use App\Facades\Pushall;
+use Carbon\Carbon;
 
 class ArticleObserver
 {
-    /**
-     * Handle the Article "updated" event.
-     *
-     * @param \App\Models\Article $article
-     * @return void
-     */
-    public function updated(Article $article)
-    {
-        User::admin()
-            ->notify(new ArticleUpdatedNotification($article));
-    }
-
     /**
      * Handle the Article "created" event.
      *
      * @return void
      */
-
     public function created(Article $article)
     {
         /**
@@ -50,6 +38,31 @@ class ArticleObserver
          */
         User::admin()
             ->notify(new ArticleCreatedNotification($article));
+    }
+
+    /**
+     * Handle the Article "updating" event.
+     *
+     * @return void
+     */
+    public function updating(Article $article)
+    {
+        $dirtyFields = json_encode(array_keys($article->getDirty()));
+        $article->history()->attach(auth()->id(), [
+            'dirty_fields' => $dirtyFields,
+        ]);
+    }
+
+    /**
+     * Handle the Article "updated" event.
+     *
+     * @param \App\Models\Article $article
+     * @return void
+     */
+    public function updated(Article $article)
+    {
+        User::admin()
+            ->notify(new ArticleUpdatedNotification($article));
     }
 
     /**

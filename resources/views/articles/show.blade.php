@@ -2,7 +2,11 @@
 
 @section('content')
 
-    @php /** @var $article \App\Models\Article */@endphp
+    @php
+        /** @var $article \App\Models\Article **/
+        /** @var $comments \Illuminate\Support\Collection*/
+        $comments = $article->comments ?? collect();
+    @endphp
     <div class="container">
         <div class="row">
             <div class="blog-main col-8">
@@ -29,17 +33,18 @@
                         <p class="alert-info">Не опубликована</p>
                     @endif
                     @can('update', $article)
-                    <a href="{{route('articles.edit', $article->slug)}}">
-                        <button class="btn btn-warning">Отредактировать</button>
-                    </a>
+                        <a href="{{route('articles.edit', $article->slug)}}">
+                            <button class="btn btn-warning">Отредактировать</button>
+                        </a>
                     @endcan
                     @can('delete', $article)
-                    <form action="{{route('articles.delete', $article->slug)}}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-danger" type="submit">Удалить</button>
-                    </form>
+                        <form action="{{route('articles.delete', $article->slug)}}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-danger" type="submit">Удалить</button>
+                        </form>
                     @endcan
+                    @include('articles.includes.comments.commentSection')
                 </div><!-- /.blog-post -->
             </div><!-- /.blog-main -->
             <div class="tag-cloud col-4">
