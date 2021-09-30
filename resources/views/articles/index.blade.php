@@ -5,7 +5,6 @@
 @endphp
 
 @section('content')
-    @include('layouts.includes.result_messages')
     <div class="row">
         <div class="blog-main col-8">
             <h3 class="pb-3 mb-4 font-italic border-bottom">

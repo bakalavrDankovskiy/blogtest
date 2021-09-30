@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FeedBackMessageController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 
-Route::get('/test', function (){
+Route::get('/test', function () {
     dd(\App\Facades\Pushall::send('dsadas', 'dsadsa'));
 });
 /**
@@ -97,5 +98,18 @@ Route::group($groupData, function () {
 
     Route::get('/articles', [AdminArticleController::class, 'index'])
         ->name('admin.articles.index');
+    /**
+     * Изменения статей
+     */
+    Route::get('/articles/{article}/changes', [AdminArticleController::class, 'showHistory'])
+        ->name('admin.articles.changes');
 });
+
+/**
+ * Комментарии к статьям
+ */
+Route::resource('comments', CommentController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth');
+
 
