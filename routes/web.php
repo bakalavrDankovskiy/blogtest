@@ -6,6 +6,9 @@ use App\Http\Controllers\FeedBackMessageController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 
+Route::get('/test', function (){
+    dd(\App\Facades\Pushall::send('dsadas', 'dsadsa'));
+});
 /**
  * Авторизация и регистрация
  */
