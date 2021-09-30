@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
     use HasFactory;
-
     protected $fillable
         = [
             'owner_id',
@@ -65,9 +63,5 @@ class Article extends Model
     public function articleChanges()
     {
         return $this->hasMany(ArticleHistory::class);
-    }
-
-    public function wasChanged($attributes = null)
-    {
     }
 }
