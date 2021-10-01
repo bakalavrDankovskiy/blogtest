@@ -25,8 +25,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with('tags')->latest()->get();
-        return view('admin.articles.index', compact('articles'));
+        $articles = Article::with('tags')
+            ->withoutGlobalScopes()
+            ->simplePaginate(20);
+        return view('articles.index', compact('articles'));
     }
 
     public function show(Article $article)

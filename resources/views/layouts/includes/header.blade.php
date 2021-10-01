@@ -42,6 +42,7 @@
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-left">
             <a class="p-2 btn-info" href="{{url()->previous()}}"><-Назад</a>
+            <a class="p-2 text-muted" href="{{route('newsPosts.index')}}">Новости</a>
             @admin
             <a class="p-2 text-muted" href="{{route('articles.index')}}">Публичный раздел статей</a>
             @else
@@ -50,6 +51,9 @@
             <a class="p-2 text-muted" href="{{route('about')}}">О нас</a>
             <a class="p-2 text-muted" href="{{route('feedbackMessage.create')}}">Контакты</a>
             <a class="p-2 text-muted" href="{{route('articles.create')}}">Создать статью</a>
+                @admin
+                <a class="p-2 text-muted" href="{{route('admin.newsPosts.create')}}">Создать новость</a>
+                @endadmin
             @admin
             <a class="p-2 text-muted" href="{{route('admin.index')}}">Админ. раздел</a>
             @endadmin

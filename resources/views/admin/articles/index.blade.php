@@ -39,6 +39,7 @@
                     </div>
                 </div><!-- /.blog-post -->
             @endforeach
+            {{$articles->links()}}
         </div><!-- /.blog-main -->
         <div class="tag-cloud col-4">
             <label for="tag-cloud-card" class="font-weight-bold">Облако тегов</label>

@@ -6,6 +6,8 @@ use App\Http\Controllers\FeedBackMessageController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsPostController;
+use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 
 /**
  * Авторизация и регистрация
@@ -59,6 +61,21 @@ Route::post('/articles', [ArticleController::class, 'store'])
  */
 Route::get('/articles/tags/{tag}', [TagController::class, 'index'])
     ->name('articles.tag');
+
+/**
+ * Вывести конкретную новость
+ */
+Route::get('/news/{newsPost}', [NewsPostController::class, 'show'])
+    ->name('newsPosts.show')
+    ->middleware('auth');
+
+/**
+ * Вывод всех новостей блога
+ */
+Route::get('/news', [NewsPostController::class, 'index'])
+    ->name('newsPosts.index')
+    ->middleware('auth');
+
 /**
  * Страница About
  */
@@ -106,11 +123,23 @@ Route::group($groupData, function () {
         ->names('admin.articles')
         ->except(['create', 'store']);
 
+    /*
+     * Ресурс для новостей
+     */
+    Route::resource('news', AdminNewsPostController::class)
+        ->names('admin.newsPosts');
+
+    /**
+     * Изменения статей
+     */
     Route::get('admin/articles/{article}/changes', function (\App\Models\Article $article) {
         return view('admin.articles.includes.articleHistory.changesHistory', ['histories' => $article->articleChanges]);
     })->name('admin.articles.changes');
 });
 
+/**
+ * Комментарии к статьям
+ */
 Route::resource('comments', CommentController::class)
     ->only(['store', 'destroy'])
     ->middleware('auth');

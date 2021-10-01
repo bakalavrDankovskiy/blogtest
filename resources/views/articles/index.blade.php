@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@php /** @var $articles \App\Models\Article */
+@php /** @var $articles \Illuminate\Pagination\Paginator */
         /** @var $tags \App\Models\Tag */
 @endphp
 
@@ -25,16 +25,22 @@
                     <div class="row justify-content-end">
                         <blockquote class="font-italic font-weight-bold col-4">
                             Автор: {{$article->owner->name}}</blockquote>
-                        @can('delete', $article)
+                        @admin
+                        <a href="{{route('articles.edit', $article)}}">
+                            <button class="btn btn-warning">Отредактировать</button>
+                        </a>
                             <form action="{{route('articles.delete', $article->slug)}}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-danger" type="submit">Удалить</button>
                             </form>
-                        @endcan
+                        @endadmin
                     </div>
                 </div><!-- /.blog-post -->
             @endforeach
+            <div class="pagination col-4">
+            {{$articles->links()}}
+            </div>
         </div><!-- /.blog-main -->
         <div class="tag-cloud col-4">
             <label for="tag-cloud-card" class="font-weight-bold">Облако тегов</label>

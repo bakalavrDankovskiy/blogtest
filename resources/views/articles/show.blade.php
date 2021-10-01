@@ -49,7 +49,7 @@
             </div><!-- /.blog-main -->
             <div class="tag-cloud col-4">
                 <label for="tag-cloud-card" class="font-weight-bold">Облако тегов</label>
-                <div id="tag-cloud-card" class="card" style="width: 18rem;">
+                <div id="tag-cloud-card" class="card">
                     <ul class="list-group list-group-flush">
                         @include('articles.includes.tags.tagsSideBar')
                     </ul>
