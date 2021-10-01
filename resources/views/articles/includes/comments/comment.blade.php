@@ -1,7 +1,7 @@
 @php
-/**
- * @var \App\Models\Comment $comment
-**/
+    /**
+     * @var \App\Models\Comment $comment
+    **/
 @endphp
 <div class="card">
     <div class="card-header">

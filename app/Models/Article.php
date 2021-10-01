@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +22,7 @@ class Article extends Model
     protected static function boot()
     {
         parent::boot();
-        self::addGlobalScope(function (Builder $builder) {
+        self::addGlobalScope('withComments', function (Builder $builder) {
             return $builder->with('comments', function ($builder) {
                 return $builder->orderByDesc('created_at');
             })->with('history');
@@ -63,5 +64,10 @@ class Article extends Model
     public function articleChanges()
     {
         return $this->hasMany(ArticleHistory::class);
+    }
+
+    public function scopeOnlyPublished($builder)
+    {
+        return $builder->where('is_published', 1);
     }
 }

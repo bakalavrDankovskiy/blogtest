@@ -32,7 +32,7 @@ class ArticleController extends Controller
             ->with('tags')
             ->where('is_published', 1)
             ->latest()
-            ->get();
+            ->simplePaginate(10);
         return view('articles.index', compact('articles'));
     }
 

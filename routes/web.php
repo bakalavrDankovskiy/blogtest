@@ -3,9 +3,11 @@
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\NewsPostController;
 use App\Http\Controllers\FeedBackMessageController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 
 Route::get('/test', function () {
     dd(\App\Facades\Pushall::send('dsadas', 'dsadsa'));
@@ -58,6 +60,23 @@ Route::post('/articles', [ArticleController::class, 'store'])
     ->name('articles.store');
 
 /**
+ * Новости
+ */
+/**
+ * Вывести конкретную новость
+ */
+Route::get('/news/{newsPost}', [NewsPostController::class, 'show'])
+    ->name('newsPosts.show')
+    ->middleware('auth');
+
+/**
+ * Вывод всех новостей блога
+ */
+Route::get('/news', [NewsPostController::class, 'index'])
+    ->name('newsPosts.index')
+    ->middleware('auth');
+
+/**
  * Вывести все статьи по тегу {tag}
  */
 Route::get('/articles/tags/{tag}', [TagController::class, 'index'])
@@ -95,9 +114,17 @@ Route::group($groupData, function () {
 
     Route::get('/feedback', [FeedBackMessageController::class, 'index'])
         ->name('admin.feedback');
-
+    /**
+     * Статьи
+     */
     Route::get('/articles', [AdminArticleController::class, 'index'])
         ->name('admin.articles.index');
+    /**
+     * Новости
+     */
+    Route::resource('news', AdminNewsPostController::class)
+        ->names('admin.newsPosts');
+
     /**
      * Изменения статей
      */

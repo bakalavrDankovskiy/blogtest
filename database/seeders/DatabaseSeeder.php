@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TagsTableSeeder::class);
         $this->call(TagArticleSeeder::class);
         $this->call(CommentSeeder::class);
+        $this->call(NewsPostSeeder::class);
         FeedbackMessage::factory(10)->create();
     }
 }
