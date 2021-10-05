@@ -20,6 +20,16 @@ class Tag extends Model
 
     public function articles()
     {
-        return $this->BelongsToMany(Article::class, 'tag_article');
+        return $this->morphedByMany(Article::class, 'taggable')->with('tags');
+    }
+
+    public function newsPosts()
+    {
+        return $this->morphedByMany(NewsPost::class, 'taggable')->with('tags');
+    }
+
+    public function taggables()
+    {
+
     }
 }

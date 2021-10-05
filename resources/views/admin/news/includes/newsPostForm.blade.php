@@ -30,5 +30,13 @@
            checked="checked">
     <label for="is_published" class="form-check-label">Опубликовано</label>
 </div>
+<div class="mb-3">
+    <label for="Tags" class="form-label">Теги</label>
+    <input
+        type="text"
+        name="tags"
+        id="Tags"
+        placeholder="Теги" value="{{old('tags', @$newsPost ? @$newsPost->tags->pluck('name')->implode(', ') : '')}}">
+</div>
 <br>
 <button type="submit" class="btn btn-primary">Submit</button>

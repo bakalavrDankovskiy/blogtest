@@ -16,10 +16,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->isNotAdmin()) {
-            return back()
-                ->withErrors('У вас нет прав, чтобы заходить в админ. раздел');
+        if (auth()->check()) {
+            if (auth()->user()->isNotAdmin()) {
+                return back()
+                    ->withErrors('У вас нет прав, чтобы заходить в админ. раздел');
+            }
+            return $next($request);
         }
-        return $next($request);
+        return redirect(route('login'));
     }
 }

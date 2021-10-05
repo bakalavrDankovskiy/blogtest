@@ -6,6 +6,8 @@
                 <li class="list-group-item"><a href="{{route('admin.feedback')}}">Список обращений</a></li>
                 <li class="list-group-item"><a href="{{route('admin.articles.index')}}">Редакция статей</a></li>
                 <li class="list-group-item"><a href="{{route('admin.newsPosts.index')}}">Редакция новостей</a></li>
+                <li class="list-group-item"><a href="{{route('admin.statystics')}}">Статистика сайта</a></li>
+                <li class="list-group-item"><a href="{{route('admin.report.view')}}">Создать отчет</a></li>
             </ul>
     </div>
 @endsection

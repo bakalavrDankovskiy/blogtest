@@ -21,6 +21,10 @@
                     @endadmin
                     <p class="blog-post-meta">{{$newsPost->created_at}}</p>
 
+                    <div class="row">
+                        @include('articles.includes.tags.articleTags', ['tags' => $newsPost->tags])
+                    </div>
+
                     <p>{{$newsPost->excerpt}}</p>
 
                     <div class="row justify-content-end">
@@ -37,9 +41,17 @@
                     </div>
                 </div><!-- /.blog-post -->
             @endforeach
-            <div class="pagination col-4">
-            {{$newsPosts->links()}}
-            </div>
         </div><!-- /.blog-main -->
+        <div class="tag-cloud col-4">
+            <label for="tag-cloud-card" class="font-weight-bold">Облако тегов</label>
+            <div id="tag-cloud-card" class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                    @include('articles.includes.tags.tagsSideBar')
+                </ul>
+            </div>
+        </div><!-- /.tag-cloud -->
+        <div class="pagination col-4">
+            {{$newsPosts->links()}}
+        </div>
     </div><!-- /.row -->
 @endsection

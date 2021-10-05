@@ -188,6 +188,7 @@ return [
         App\Providers\ArticleModelServiceProvider::class,
         App\Providers\RolesServiceProvider::class,
         App\Providers\PushallServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*

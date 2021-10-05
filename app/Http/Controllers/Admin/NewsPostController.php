@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPostCreateRequest;
 use App\Http\Requests\NewsPostUpdateRequest;
 use App\Models\NewsPost;
+use App\Services\TagsSynchronizer;
 
 class NewsPostController extends Controller
 {
@@ -67,10 +68,18 @@ class NewsPostController extends Controller
      * @param  \App\Models\NewsPost  $newsPost
      * @return \Illuminate\Http\Response
      */
-    public function update(NewsPostUpdateRequest $request, NewsPost $newsPost)
+    public function update(NewsPostUpdateRequest $request, TagsSynchronizer $tagsSynchronizer, NewsPost $newsPost)
     {
         $data = $request->input();
         $newsPost->update($data);
+
+        /**
+         * @var $tagsFromRequest \Illuminate\Support\Collection
+         */
+        $tagsFromRequest =
+            collect(explode(', ', request('tags')));
+
+        $tagsSynchronizer->sync($tagsFromRequest, $newsPost);
 
         return redirect()
             ->back()

@@ -40,14 +40,14 @@ class Article extends Model
         return 'slug';
     }
 
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class, 'tag_article');
-    }
-
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function owner()
@@ -70,5 +70,10 @@ class Article extends Model
     public function scopeOnlyPublished($builder)
     {
         return $builder->where('is_published', 1);
+    }
+
+    public function scopeGetOnlyOwned($builder)
+    {
+        return $builder->where('owner_id', auth()->user()->id)->get();
     }
 }

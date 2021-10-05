@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsPostController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
+use App\Http\Controllers\Admin\StatysticsController;
 
 /**
  * Авторизация и регистрация
@@ -59,8 +60,20 @@ Route::post('/articles', [ArticleController::class, 'store'])
 /**
  * Вывести все статьи по тегу {tag}
  */
-Route::get('/articles/tags/{tag}', [TagController::class, 'index'])
+Route::get('/articles/tags/{tag}', [TagController::class, 'articles'])
     ->name('articles.tag');
+
+/**
+ * Вывести все новости по тегу {tag}
+ */
+Route::get('/news/tags/{tag}', [TagController::class, 'newsPosts'])
+    ->name('newsPosts.tag');
+
+/**
+ * Вывести все новости по тегу {tag}
+ */
+Route::get('tags/{tag}', [TagController::class, 'index'])
+    ->name('index.tag');
 
 /**
  * Вывести конкретную новость
@@ -132,10 +145,29 @@ Route::group($groupData, function () {
     /**
      * Изменения статей
      */
-    Route::get('admin/articles/{article}/changes', function (\App\Models\Article $article) {
+    Route::get('articles/{article}/changes', function (\App\Models\Article $article) {
         return view('admin.articles.includes.articleHistory.changesHistory', ['histories' => $article->articleChanges]);
     })->name('admin.articles.changes');
+
+    /**
+     * Статистика сайта
+     */
+    Route::get('statystics', [StatysticsController::class, 'index'])
+        ->name('admin.statystics');
+
+    /*
+     * Создание отчета о сайте
+     */
+    Route::view('report', 'admin.report')
+        ->name('admin.report.view');
+
+    Route::post('report', function (){
+        \App\Jobs\AdminReportJob::dispatchNow(request()->input());
+    })
+    ->name('admin.report.generate');
 });
+
+
 
 /**
  * Комментарии к статьям
