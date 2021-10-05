@@ -13,13 +13,23 @@ class Tag extends Model
         'name',
     ];
 
-    public static function tagsCloud()
+    public static function articlesTagsCloud()
     {
         return (new static())->has('articles')->get();
     }
 
+    public static function newsPostsTagsCloud()
+    {
+        return (new static())->has('newsPosts')->get();
+    }
+
     public function articles()
     {
-        return $this->BelongsToMany(Article::class, 'tag_article');
+        return $this->morphedByMany(Article::class, 'taggable')->with('tags');
+    }
+
+    public function newsPosts()
+    {
+        return $this->morphedByMany(NewsPost::class, 'taggable')->with('tags');
     }
 }

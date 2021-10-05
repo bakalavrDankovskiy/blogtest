@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsPostCreateRequest;
 use App\Http\Requests\NewsPostUpdateRequest;
 use App\Models\NewsPost;
+use App\Services\TagsSynchronizer;
 
 class NewsPostController extends Controller
 {
     public function index()
     {
         $newsPosts = NewsPost::latest()
+            ->with('tags')
             ->paginate(20);
         return view('news.index', compact('newsPosts'));
     }
@@ -60,10 +62,18 @@ class NewsPostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsPostUpdateRequest $request, NewsPost $newsPost)
+    public function update(NewsPostUpdateRequest $request, TagsSynchronizer $tagsSynchronizer, NewsPost $newsPost)
     {
         $data = $request->input();
         $newsPost->update($data);
+
+        /**
+         * @var $tagsFromRequest \Illuminate\Support\Collection
+         */
+        $tagsFromRequest =
+            collect(explode(', ', request('tags')));
+
+        $tagsSynchronizer->sync($tagsFromRequest, $newsPost);
 
         return redirect()
             ->back()

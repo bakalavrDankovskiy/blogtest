@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
+use App\Models\NewsPost;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
-class TagArticleSeeder extends Seeder
+class TaggablesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,16 +18,16 @@ class TagArticleSeeder extends Seeder
     {
         $tags = Tag::all();
         $articles = Article::all();
-        $data = [];
+        $newsPosts = NewsPost::all();
 
         foreach ($articles as $article) {
+                $article->tags()->sync($tags->random(5)->pluck('id'));
+        }
+
+        foreach ($newsPosts as $newsPost) {
             foreach ($tags->random(5) as $tag) {
-                $data[] = [
-                    'article_id' => $article->id,
-                    'tag_id' => $tag->id,
-                ];
+                $newsPost->tags()->sync($tags->random(5)->pluck('id'));
             }
         }
-        \DB::table('tag_article')->insert($data);
     }
 }

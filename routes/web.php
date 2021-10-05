@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\StatysticsController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
@@ -124,6 +125,12 @@ Route::group($groupData, function () {
      */
     Route::get('/articles/{article}/changes', [AdminArticleController::class, 'showHistory'])
         ->name('admin.articles.changes');
+
+    /**
+     * Статистика сайта
+     */
+    Route::get('statystics', [StatysticsController::class, 'index'])
+        ->name('admin.statystics');
 });
 
 /**

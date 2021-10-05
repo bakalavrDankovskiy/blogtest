@@ -18,9 +18,8 @@ class CreateCommentsTable extends Migration
             $table->text('txt');
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('article_id')->constrained()->onDelete('cascade');
+            $table->morphs('commentable');
         });
     }
 
