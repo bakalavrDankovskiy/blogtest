@@ -29,5 +29,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'pushall' => [
+        'api' => [
+            'id' => env('PUSHALL_PRIVATE_ID'),
+            'key' => env('PUSHALL_PRIVATE_KEY'),
+        ],
+    ],
 
 ];

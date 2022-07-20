@@ -126,7 +126,8 @@ return [
     /**
      * Админский email
      */
-    'admin_email' => 'skillboxlaravel@gmail.com',
+    'admin_email' => env('ADMIN_LOGIN'),
+    'admin_password' => env('ADMIN_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
@@ -187,6 +188,7 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\ArticleModelServiceProvider::class,
         App\Providers\RolesServiceProvider::class,
+        App\Providers\PushallServiceProvider::class,
     ],
 
     /*
@@ -240,6 +242,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /**
+         * Custom Facades
+         */
+        'Pushall' => \App\Facades\Pushall::class,
     ],
 
 ];

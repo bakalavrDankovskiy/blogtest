@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
-use App\Observers\ArticleObserver;
+use App\Services\Pushall;
 use Illuminate\Support\ServiceProvider;
 
-class ArticleModelServiceProvider extends ServiceProvider
+class PushallServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -15,7 +14,9 @@ class ArticleModelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('Pushall', function (){
+            return new Pushall(config('services.pushall.api.id'), config('services.pushall.api.key'));
+        });
     }
 
     /**
@@ -25,6 +26,6 @@ class ArticleModelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Article::observe(ArticleObserver::class);
+        //
     }
 }
