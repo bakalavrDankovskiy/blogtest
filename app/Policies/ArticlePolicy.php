@@ -18,8 +18,8 @@ class ArticlePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Article  $article
+     * @param \App\Models\User $user
+     * @param \App\Models\Article $article
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, Article $article)

@@ -53,6 +53,7 @@
             <a class="p-2 text-muted" href="{{route('admin.index')}}">Админ. раздел</a>
             @endadmin
         </nav>
+        @include('layouts.includes.result_messages')
     </div>
 </div>
 <body>

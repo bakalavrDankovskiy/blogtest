@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\FeedbackMessage;
 use Illuminate\Database\Seeder;
-use App\Models\Article;
-use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ArticlesTableSeeder::class);
         $this->call(TagsTableSeeder::class);
         $this->call(TagArticleSeeder::class);
+        $this->call(CommentSeeder::class);
         FeedbackMessage::factory(10)->create();
     }
 }

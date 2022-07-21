@@ -21,6 +21,13 @@ class ArticleObserver
      * @param \App\Models\Article $article
      * @return void
      */
+    public function updating(Article $article)
+    {
+        $dirtyFields = json_encode(array_keys($article->getDirty()));
+        $article->history()->attach(auth()->id(), [
+            'dirty_fields' => $dirtyFields,
+        ]);
+    }
     public function updated(Article $article)
     {
         /**

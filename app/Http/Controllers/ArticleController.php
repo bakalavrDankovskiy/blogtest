@@ -31,7 +31,8 @@ class ArticleController extends Controller
             ->articles()
             ->with('tags')
             ->where('is_published', 1)
-            ->latest()->get();
+            ->latest()
+            ->get();
         return view('articles.index', compact('articles'));
     }
 

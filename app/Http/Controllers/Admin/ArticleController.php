@@ -26,4 +26,10 @@ class ArticleController extends Controller
         $articles = Article::with('tags')->latest()->get();
         return view('articles.index', compact('articles'));
     }
+
+    public function showHistory(Article $article)
+    {
+        $histories = $article->articleChanges;
+        return view('admin.articles.articleHistory', compact(['article', 'histories']));
+    }
 }
