@@ -13,7 +13,7 @@ class NewsPostController extends Controller
     {
         $newsPosts = NewsPost::latest()
             ->onlyPublished()
-            ->simplePaginate(10);
+            ->paginate(10);
         return view('news.index', compact('newsPosts'));
     }
 

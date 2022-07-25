@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@php /** @var $articles \App\Models\Article */
+@php
+        /** @var $articles \App\Models\Article */
         /** @var $tags \App\Models\Tag */
 @endphp
 
@@ -12,7 +13,7 @@
             </h3>
             @foreach($articles as $article)
                 <div class="blog-post justify-content-center mb-5 border-bottom">
-                    <a href="{{route('articles.show', $article->slug)}}"><h2
+                    <a href="{{route('articles.show', $article)}}"><h2
                             class="blog-post-title">{{$article->title}}</h2></a>
                     <p class="blog-post-meta">{{$article->created_at}}</p>
 
@@ -29,14 +30,14 @@
                         <div class="row">
                             <div class="col-7">
                                 @can('update', $article)
-                                    <a href="{{route('articles.edit', $article->slug)}}">
+                                    <a href="{{route('articles.edit', $article)}}">
                                         <button class="btn btn-warning">Отредактировать</button>
                                     </a>
                                 @endcan
                             </div>
                             <div class="col-5">
                                 @can('delete', $article)
-                                    <form action="{{route('articles.delete', $article->slug)}}" method="POST">
+                                    <form action="{{route('articles.delete', $article)}}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button class="btn btn-danger" type="submit">Удалить</button>

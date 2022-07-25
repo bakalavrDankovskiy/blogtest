@@ -13,7 +13,7 @@
                 <p class="font-weight-bold">Отредактировать новость '{{$newsPost->title}}'</p>
             </blockquote>
         </figure>
-        <form action="{{route('admin.newsPosts.update', $newsPost->id)}}" method="POST">
+        <form action="{{route('admin.newsPosts.update', $newsPost)}}" method="POST">
             @method('PATCH')
             @include('admin.news.includes.newsPostForm')
         </form>

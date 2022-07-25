@@ -9,9 +9,6 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\NewsPostController as AdminNewsPostController;
 
-Route::get('/test', function () {
-    dd(\App\Facades\Pushall::send('dsadas', 'dsadsa'));
-});
 /**
  * Авторизация и регистрация
  */
@@ -62,16 +59,10 @@ Route::post('/articles', [ArticleController::class, 'store'])
 /**
  * Новости
  */
-/**
- * Вывести конкретную новость
- */
-Route::get('/news/{newsPost}', [NewsPostController::class, 'show'])
+Route::get('/news/{new}', [NewsPostController::class, 'show'])
     ->name('newsPosts.show')
     ->middleware('auth');
 
-/**
- * Вывод всех новостей блога
- */
 Route::get('/news', [NewsPostController::class, 'index'])
     ->name('newsPosts.index')
     ->middleware('auth');
@@ -123,6 +114,9 @@ Route::group($groupData, function () {
      * Новости
      */
     Route::resource('news', AdminNewsPostController::class)
+        ->parameters([
+            'news' => 'new'
+        ])
         ->names('admin.newsPosts');
 
     /**

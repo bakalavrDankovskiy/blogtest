@@ -46,14 +46,14 @@
                     <div class="row float-left">
                         <div class="col">
                             @can('update', $article)
-                                <a href="{{route('articles.edit', $article->slug)}}">
+                                <a href="{{route('articles.edit', $article)}}">
                                     <button class="btn btn-warning">Отредактировать</button>
                                 </a>
                             @endcan
                         </div>
                         <div class="col">
                             @can('delete', $article)
-                                <form action="{{route('articles.delete', $article->slug)}}" method="POST">
+                                <form action="{{route('articles.delete', $article)}}" method="POST">
                                     @method('DELETE')
                                     @csrf
                                     <button class="btn btn-danger" type="submit">Удалить</button>

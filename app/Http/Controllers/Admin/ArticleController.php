@@ -26,7 +26,7 @@ class ArticleController extends Controller
         $articles = Article::with('tags')
             ->latest()
             ->withoutGlobalScopes()
-            ->simplePaginate(20);
+            ->paginate(20);
         return view('articles.index', compact('articles'));
     }
 

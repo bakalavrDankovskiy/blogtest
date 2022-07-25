@@ -12,13 +12,13 @@ class NewsPostController extends Controller
     public function index()
     {
         $newsPosts = NewsPost::latest()
-            ->simplePaginate(20);
+            ->paginate(20);
         return view('news.index', compact('newsPosts'));
     }
 
     /**
      * Display the specified resource.
-     * @param  \App\Models\NewsPost  $newsPost
+     * @param \App\Models\NewsPost $newsPost
      */
     public function show(NewsPost $newsPost)
     {
@@ -36,21 +36,21 @@ class NewsPostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  NewsPostCreateRequest  $request
+     * @param NewsPostCreateRequest $request
      */
     public function store(NewsPostCreateRequest $request)
     {
         NewsPost::create($request->input());
 
         return redirect()
-            ->route('articles.create')
+            ->route('admin.newsPosts.create')
             ->with(['success' => 'Успешно сохранено']);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\NewsPost  $newsPost
+     * @param \App\Models\NewsPost $newsPost
      */
     public function edit(NewsPost $newsPost)
     {
@@ -73,14 +73,14 @@ class NewsPostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\NewsPost  $newsPost
+     * @param \App\Models\NewsPost $newsPost
      */
     public function destroy(NewsPost $newsPost)
     {
         $newsPost->delete();
 
         return redirect()
-            ->back()
+            ->route('admin.newsPosts.index')
             ->with(['success' => 'Успешно удалено']);
     }
 }
