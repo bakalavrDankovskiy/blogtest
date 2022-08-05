@@ -79,4 +79,14 @@ class User extends Authenticatable
     {
         return $builder->has('articles');
     }
+
+    public function scopeWithMostArticles($builder)
+    {
+        return $builder->withCount('articles')->orderByDesc('articles_count')->get('name','id')->first();
+    }
+
+    public function scopeAverageCountOfArticlesUsersHave($builder)
+    {
+        return $builder->active()->withCount('articles')->get()->avg('articles_count');
+    }
 }

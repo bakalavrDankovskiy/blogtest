@@ -13,12 +13,12 @@ class StatysticsController extends Controller
     {
         $articlesCount = Article::count();
         $newsPostsCount = NewsPost::count();
-        $userWithMostArticles = User::withCount('articles')->orderByDesc('articles_count')->get('name','id')->first();
-        $longestArticle = Article::where('txt', \DB::table('articles')->max('txt'))->first();
-        $shortestArticle = Article::where('txt', \DB::table('articles')->min('txt'))->first();
-        $averageArticleCountUsersHave = User::active()->withCount('articles')->get()->avg('articles_count');
-        $mostUpdatedArticle = Article::withCount('history')->orderByDesc('history_count')->first();
-        $mostCommentedArticle = Article::withCount('comments')->orderByDesc('comments_count')->first();
+        $userWithMostArticles = User::withMostArticles();
+        $longestArticle = Article::longest();
+        $shortestArticle = Article::shortest();
+        $averageArticleCountUsersHave = User::averageCountOfArticlesUsersHave();
+        $mostUpdatedArticle = Article::mostUpdated();
+        $mostCommentedArticle = Article::mostCommented();
 
         return view('admin.statysticks', compact([
             'articlesCount',

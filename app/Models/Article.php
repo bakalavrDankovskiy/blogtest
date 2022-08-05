@@ -70,4 +70,24 @@ class Article extends Model
     {
         return $builder->where('owner_id', auth()->user()->id)->get();
     }
+
+    public function scopeShortest($builder)
+    {
+        return $builder->where('txt', \DB::table('articles')->min('txt'))->first();
+    }
+
+    public function scopeLongest($builder)
+    {
+        return $builder->where('txt', \DB::table('articles')->max('txt'))->first();
+    }
+
+    public function scopeMostUpdated($builder)
+    {
+        return $builder->withCount('history')->orderByDesc('history_count')->first();
+    }
+
+    public function scopeMostCommented($builder)
+    {
+        return $builder->withCount('comments')->orderByDesc('comments_count')->first();
+    }
 }

@@ -129,8 +129,16 @@ Route::group($groupData, function () {
     /**
      * Статистика сайта
      */
-    Route::get('statystics', [StatysticsController::class, 'index'])
+    Route::get('/statystics', [StatysticsController::class, 'index'])
         ->name('admin.statystics');
+
+    Route::view('/report/total', 'admin.report.total')
+    ->name('admin.report.total');
+
+    Route::post('/report/total', function()
+    {
+
+    });
 });
 
 /**
