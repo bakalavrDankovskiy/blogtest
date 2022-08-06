@@ -21,4 +21,14 @@ class NewsPost extends Model
     {
         return $builder->where('is_published', 1);
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }
