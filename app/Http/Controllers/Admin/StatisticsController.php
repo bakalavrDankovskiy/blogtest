@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendTotalReport;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\NewsPost;
 
-class StatysticsController extends Controller
+class StatisticsController extends Controller
 {
     public function index()
     {
@@ -20,7 +21,7 @@ class StatysticsController extends Controller
         $mostUpdatedArticle = Article::mostUpdated();
         $mostCommentedArticle = Article::mostCommented();
 
-        return view('admin.statysticks', compact([
+        return view('admin.statistics', compact([
             'articlesCount',
             'newsPostsCount',
             'userWithMostArticles',
@@ -31,5 +32,16 @@ class StatysticsController extends Controller
             'mostUpdatedArticle',
             'mostCommentedArticle',
         ]));
+    }
+
+    public function totalReport()
+    {
+        $tables = array_keys(array_filter(request()->input('tables', fn($v) => $v !== '0')));
+
+        SendTotalReport::dispatch($tables);
+
+        return redirect()
+            ->back()
+            ->with(['success' => 'Отчет успешно отправлен']);
     }
 }

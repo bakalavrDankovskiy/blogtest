@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\StatysticsController;
+use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
@@ -129,16 +129,14 @@ Route::group($groupData, function () {
     /**
      * Статистика сайта
      */
-    Route::get('/statystics', [StatysticsController::class, 'index'])
-        ->name('admin.statystics');
+    Route::get('/statistics', [StatisticsController::class, 'index'])
+        ->name('admin.statistics');
 
     Route::view('/report/total', 'admin.report.total')
-    ->name('admin.report.total');
+        ->name('admin.report.total');
 
-    Route::post('/report/total', function()
-    {
-
-    });
+    Route::post('/report/total', [StatisticsController::class, 'totalReport'])
+        ->name('admin.report.total.post');
 });
 
 /**

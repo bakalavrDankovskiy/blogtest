@@ -35,3 +35,27 @@ services:
     depends_on:
       - db
     container_name: blogtest-app
+    extra_hosts:
+      - "internal.host:host-gateway"
+
+  worker:
+    build:
+      context: .
+      dockerfile: _docker/supervisor/Dockerfile
+    volumes:
+      - ./:/var/www/
+      - ./_docker/supervisor/:/etc/supervisor
+    depends_on:
+      - app
+    command: supervisord
+    container_name: blogtest-worker
+
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./_docker/redisdata:/data
+    container_name: blogtest-redis
+

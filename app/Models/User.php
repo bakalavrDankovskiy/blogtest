@@ -66,9 +66,6 @@ class User extends Authenticatable
         return $this->role->name !== Roles::ADMIN;
     }
 
-    /*
-     * Временное решение! Возвращает админа
-     */
     public static function admin()
     {
         return User::where('email', '=', config('app.admin_email'))
