@@ -66,9 +66,6 @@ class User extends Authenticatable
         return $this->role->name !== Roles::ADMIN;
     }
 
-    /*
-     * Временное решение! Возвращает админа
-     */
     public static function admin()
     {
         return User::where('email', '=', config('app.admin_email'))
@@ -78,5 +75,15 @@ class User extends Authenticatable
     public function scopeActive($builder)
     {
         return $builder->has('articles');
+    }
+
+    public function scopeWithMostArticles($builder)
+    {
+        return $builder->withCount('articles')->orderByDesc('articles_count')->get('name','id')->first();
+    }
+
+    public function scopeAverageCountOfArticlesUsersHave($builder)
+    {
+        return $builder->active()->withCount('articles')->get()->avg('articles_count');
     }
 }

@@ -16,4 +16,8 @@ yarn-error.log
 _ide_helper.php
 _docker/logs
 _docker/db/
+_docker/redisdata
+storage/logs
+storage/tmp
+./route.txt
 
