@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\ArticleUpdated;
 use App\Notifications\{
     ArticleCreatedNotification,
     ArticleDeletedNotification,
@@ -23,13 +24,20 @@ class ArticleObserver
      */
     public function updating(Article $article)
     {
-        $dirtyFields = json_encode(array_keys($article->getDirty()));
+        $dirtyFields = array_keys($article->getDirty());
         $article->history()->attach(auth()->id(), [
-            'dirty_fields' => $dirtyFields,
+            'dirty_fields' => json_encode($dirtyFields),
         ]);
     }
+
     public function updated(Article $article)
     {
+        event(new ArticleUpdated(
+            $article->id,
+            array_keys($article->getDirty()),
+            route('articles.show', $article)
+        ));
+
         /**
          * Pushall уведомление
          */
