@@ -45,6 +45,13 @@ RUN apt-get update \
     supervisor \
   && rm -rf /var/qlib/apt/lists/*
 
+#Install node,npm for laravel-echo-server autostart
+SHELL ["/bin/bash", "--login", "-c"]
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+RUN nvm install node
+RUN npm install -g laravel-echo-server
+
 CMD  ["supervisord", "-n", "-c",  "/etc/supervisor/supervisord.conf"]
 
 WORKDIR /etc/supervisor/conf.d/

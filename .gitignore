@@ -20,4 +20,6 @@ _docker/redisdata
 storage/logs
 storage/tmp
 ./route.txt
+_docker/supervisor/conf.d/supervisord.log
+_docker/supervisor/conf.d/supervisord.pid
 

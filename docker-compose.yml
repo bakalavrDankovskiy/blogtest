@@ -45,6 +45,8 @@ services:
     volumes:
       - ./:/var/www/
       - ./_docker/supervisor/:/etc/supervisor
+    ports:
+      - "6001:6001"
     depends_on:
       - app
     command: supervisord
